@@ -1,0 +1,11 @@
+.card {
+    justify-content: center;
+}
+
+.ui blue card card {
+    margin-bottom: 30px;
+}
+
+.cardTitle {
+    font-family: 'Rubik Mono One', sans-serif;
+}
