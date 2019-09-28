@@ -1,40 +1,42 @@
-import React from 'react';
-import {useEffect, useState} from 'react';
-import StarWarsCharMap from './components/StarWarsCharMap';
-import axios from 'axios';
-
-import { Container, Divider } from 'semantic-ui-react';
-
+import React, {useState, useEffect} from 'react';
+import Axios from 'axios';
+import CharacterCard from './components/CharacterCard';
+import PageNav from './components/PageNav';
+import 'semantic-ui-css/semantic.min.css';
+import './App.css';
 
 
 const App = () => {
-  const[file, setFile] = useState([]);
-  console.log(file)
-  
+  const [characters, setCharacters] = useState([]);
+  const [pages, setPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
-    axios.get('https://swapi.co/api/people')
-    .then(info=>{
-      setFile(info.data.results);
-    })
-    .catch(error => {
-      console.log('major error', error);
-    });
-  }, [])
-
-  // Try to think through what state you'll need for this app before starting. Then build out
-  // the state properties here.
-
-  // Fetch characters from the star wars api in an effect hook. Remember, anytime you have a 
-  // side effect in a component, you want to think about which state and/or props it should
-  // sync up with, if any.
-
+    Axios
+      .get(`https://swapi.co/api/people/?page=${currentPage}`)
+      .then(response => {
+        console.log(response)
+        setCharacters(response.data.results);
+        const totalPages = Math.ceil(response.data.count / 10);
+        setPages(totalPages);
+      });
+  }, [currentPage]);
   return (
     <div className="App">
-       <Container>
-        <h1 className="title"> Jason's React Wars: <br/>May The Code Be With You</h1>
-      <Divider />
-        </Container>
-      {file.length ? <StarWarsCharMap characters = {file}/>:<h1>loading...</h1>}
+      <h1 className="Header">React Wars</h1>
+      <div className="characters">
+        {
+          characters.map(character => {
+            return <CharacterCard
+                      key={character.name}
+                      name={character.name}
+                      birth_year={character.birth_year}
+                      films={character.films.length} />
+          })
+        }
+      </div>
+      <PageNav
+        pages={pages}
+        setCurrentPage={setCurrentPage} />
     </div>
   );
 }
