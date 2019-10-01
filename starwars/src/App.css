@@ -1,8 +1,31 @@
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-image: url("./sw-bg.jpg");
+  background-size: cover;
 }
 .Header {
   color: #443e3e;
   text-shadow: 1px 1px 5px #fff;
+  text-align: center;
+}
+
+.characters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ui.card,
+.ui.card:first-child,
+.ui.card:last-child {
+  margin: 10px;
+  background-color: bisque; opacity: .85;
+} 
+
+.title {
+  color: whitesmoke;
+  font-family: 'Rubik Mono One', sans-serif;
 }
 /* write your parent styles in here for your App.js */
